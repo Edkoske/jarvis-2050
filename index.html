@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <meta name="description" content="JARVIS 2050 — a private, browser-based personal command centre.">
+  <title>JARVIS 2050 | Command Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <canvas class="particle-field" id="particle-field" aria-hidden="true"></canvas>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="JARVIS home">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span><strong>JARVIS</strong><small>PERSONAL COMMAND SYSTEM <i>2050</i></small></span>
+      </a>
+      <button class="mobile-menu icon-button" data-action="toggle-nav" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav class="primary-nav" id="primary-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-action="navigate" data-view="overview">Overview</button>
+        <button class="nav-link" data-action="open-app" data-app="tasks">My tasks</button>
+        <button class="nav-link" data-action="open-app" data-app="notes">Notes</button>
+        <button class="nav-link" data-action="open-app" data-app="system">System</button>
+      </nav>
+      <div class="header-tools">
+        <span class="system-status"><i class="status-dot"></i><span>ALL SYSTEMS NOMINAL</span></span>
+        <div class="header-clock"><span id="header-time">--:--:--</span><small id="header-date">---</small></div>
+        <button class="icon-button notification-button" data-action="notifications" aria-label="Notifications">♧<span class="notification-count" id="notification-count">0</span></button>
+        <button class="icon-button" data-action="open-app" data-app="settings" aria-label="Open settings">⚙</button>
+        <button class="icon-button fullscreen-button" data-action="fullscreen" aria-label="Toggle fullscreen">⛶</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="welcome-row">
+        <div><p class="eyebrow"><span class="eyebrow-line"></span> PERSONAL AI INTERFACE <span id="greeting">GOOD DAY</span></p>
+          <h1>Command <span>centre</span></h1>
+          <p class="subheading">Your world, intelligently connected.</p></div>
+        <div class="date-chip"><span class="chip-icon">◷</span><span id="long-date">Loading local time…</span></div>
+      </section>
+
+      <div class="dashboard-grid">
+        <section class="core-panel panel" aria-label="JARVIS assistant">
+          <div class="panel-topline"><span class="panel-label"><i class="live-pulse"></i> JARVIS CORE</span><span class="micro-label" id="core-uptime">SESSION ACTIVE</span></div>
+          <div class="core-stage" id="core-stage" data-state="idle">
+            <div class="core-orbit orbit-outer"></div><div class="core-orbit orbit-mid"></div><div class="core-orbit orbit-inner"></div>
+            <div class="core-ticks"></div><div class="core-glow"></div>
+            <button class="core-button" id="core-button" data-action="voice" aria-label="Start voice assistant">
+              <span class="core-symbol">J</span><span class="core-ripple"></span>
+            </button>
+            <div class="core-readout readout-left"><small>NEURAL LINK</small><b>● ONLINE</b></div>
+            <div class="core-readout readout-right"><small>RUNTIME</small><b>LOCAL <i>WEB</i></b></div>
+          </div>
+          <div class="core-state"><span class="state-indicator"></span><span id="core-status">SYSTEM STANDING BY</span></div>
+          <div class="waveform" id="waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="core-hint">TAP THE CORE OR SAY <span>“HEY JARVIS”</span></p>
+          <div class="quick-actions">
+            <button data-action="open-app" data-app="calculator"><span>＋</span> Calculator</button>
+            <button data-action="open-app" data-app="notes"><span>▤</span> Quick note</button>
+            <button data-action="open-app" data-app="timer"><span>◷</span> Timer</button>
+          </div>
+        </section>
+
+        <section class="command-panel panel">
+          <div class="panel-heading"><div><p class="eyebrow">INTERACTION</p><h2>Command interface</h2></div><span class="secure-tag">⌑ PRIVATE</span></div>
+          <div class="conversation" id="conversation" aria-live="polite" aria-label="Conversation history">
+            <div class="message assistant-message"><span class="message-avatar">J</span><div><small>JARVIS <time>NOW</time></small><p>Good to see you. Your command centre is ready. What can I do for you?</p></div></div>
+          </div>
+          <div class="typing-indicator" id="typing-indicator" aria-label="JARVIS is responding"><i></i><i></i><i></i><span>PROCESSING</span></div>
+          <form class="command-form" id="command-form">
+            <label class="sr-only" for="command-input">Enter a command</label>
+            <input id="command-input" name="command" maxlength="240" autocomplete="off" placeholder="Ask JARVIS anything…" required>
+            <button class="mic-button" type="button" data-action="voice" aria-label="Use voice input">🎙</button>
+            <button class="send-button" type="submit" aria-label="Send command">↑</button>
+          </form>
+          <div class="suggestion-row"><span>TRY</span><button data-command="What time is it?">What time is it?</button><button data-command="Show my tasks">My tasks</button><button data-command="Tell me a joke">Tell me a joke</button></div>
+        </section>
+
+        <section class="clock-panel panel">
+          <div class="panel-topline"><span class="panel-label">LOCAL TIME</span><span class="micro-label" id="timezone-label">LOCAL</span></div>
+          <div class="clock-display" id="clock-display">--:--<small>--</small></div>
+          <div class="clock-footer"><span id="clock-weekday">---</span><span class="clock-divider"></span><span id="clock-calendar-date">---</span></div>
+          <div class="world-clock"><span class="world-clock-icon">◎</span><div><small>UTC</small><b id="utc-time">--:--</b></div><span class="world-clock-offset" id="utc-offset">+00:00</span></div>
+        </section>
+
+        <section class="weather-panel panel">
+          <div class="panel-topline"><span class="panel-label">WEATHER</span><button class="text-button" data-action="weather-refresh" aria-label="Refresh weather">↻ REFRESH</button></div>
+          <form id="weather-form" class="weather-search"><label class="sr-only" for="weather-location">Weather location</label><input id="weather-location" maxlength="80" placeholder="Search a city…" required><button aria-label="Search weather">⌕</button></form>
+          <div class="weather-content" id="weather-content"><div class="weather-empty"><span>☼</span><p>Search a city to see live weather</p><small>Powered by Open-Meteo · no API key needed</small></div></div>
+        </section>
+
+        <section class="tasks-panel panel">
+          <div class="panel-heading compact-heading"><div><p class="eyebrow">FOCUS</p><h2>Today's tasks</h2></div><button class="text-button" data-action="open-app" data-app="tasks">VIEW ALL ↗</button></div>
+          <form class="inline-add-form" id="task-form"><label class="sr-only" for="task-input">Add a task</label><input id="task-input" maxlength="120" placeholder="Add a task…" required><button aria-label="Add task">+</button></form>
+          <div class="task-list" id="task-list"></div>
+          <div class="task-summary"><span><b id="task-count">0</b> OPEN</span><span class="task-progress"><i id="task-progress"></i></span><span id="task-completed">0 DONE</span></div>
+        </section>
+
+        <section class="launcher-panel panel">
+          <div class="panel-heading compact-heading"><div><p class="eyebrow">YOUR WORKSPACE</p><h2>Quick launch</h2></div><span class="micro-label">8 APPS</span></div>
+          <div class="launcher-grid">
+            <button class="app-tile" data-action="open-app" data-app="calculator"><span class="app-icon icon-calc">∑</span><b>Calculator</b></button>
+            <button class="app-tile" data-action="open-app" data-app="notes"><span class="app-icon icon-notes">▤</span><b>Notes</b></button>
+            <button class="app-tile" data-action="open-app" data-app="calendar"><span class="app-icon icon-calendar">▦</span><b>Calendar</b></button>
+            <button class="app-tile" data-action="open-app" data-app="tasks"><span class="app-icon icon-tasks">✓</span><b>Tasks</b></button>
+            <button class="app-tile" data-action="open-app" data-app="music"><span class="app-icon icon-music">♫</span><b>Music</b></button>
+            <button class="app-tile" data-action="open-app" data-app="browser"><span class="app-icon icon-browser">↗</span><b>Browser</b></button>
+            <button class="app-tile" data-action="open-app" data-app="system"><span class="app-icon icon-system">⌁</span><b>System</b></button>
+            <button class="app-tile" data-action="open-app" data-app="settings"><span class="app-icon icon-settings">⚙</span><b>Settings</b></button>
+          </div>
+        </section>
+      </div>
+      <footer class="dashboard-footer"><span><i class="status-dot"></i> JARVIS CORE OPERATIONAL</span><span>YOUR DATA STAYS ON THIS DEVICE <b>·</b> v2.5.0</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <section class="app-modal" id="app-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <header class="modal-header"><div class="modal-title-wrap"><span class="modal-app-icon" id="modal-icon">◈</span><div><p class="eyebrow" id="modal-category">APPLICATION</p><h2 id="modal-title">Application</h2></div></div>
+        <div class="modal-controls"><button class="icon-button minimize-button" data-action="minimize-modal" aria-label="Minimize window">—</button><button class="icon-button" data-action="close-modal" aria-label="Close window">×</button></div>
+      </header>
+      <div class="modal-body" id="modal-body"></div>
+    </section>
+  </div>
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

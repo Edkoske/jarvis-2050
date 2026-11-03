@@ -1,0 +1,26 @@
+@keyframes rotate-clockwise { to { transform: rotate(360deg); } }
+@keyframes rotate-counter { to { transform: rotate(-360deg); } }
+@keyframes core-breathe { 0%, 100% { opacity: .62; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes core-pulse { 0%, 100% { box-shadow: 0 0 25px rgba(var(--accent-rgb), .2), inset 0 0 20px rgba(var(--accent-rgb), .1); } 50% { box-shadow: 0 0 48px rgba(var(--accent-rgb), .48), inset 0 0 32px rgba(var(--accent-rgb), .25); } }
+@keyframes ripple { 0% { transform: scale(.85); opacity: .7; } 100% { transform: scale(1.24); opacity: 0; } }
+@keyframes waveform { 0%, 100% { height: 4px; } 50% { height: 18px; } }
+@keyframes typing { to { opacity: .25; transform: translateY(-2px); } }
+@keyframes message-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes modal-in { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes toast-in { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+.orbit-outer { animation: rotate-clockwise 32s linear infinite; }
+.orbit-mid { animation: rotate-counter 21s linear infinite; }
+.orbit-inner { animation: rotate-clockwise 14s linear infinite; }
+.core-ticks { animation: rotate-counter 60s linear infinite; }
+.core-glow { animation: core-breathe 3s ease-in-out infinite; }
+.core-ripple { animation: ripple 2.7s ease-out infinite; }
+.core-button { animation: core-pulse 3.6s ease-in-out infinite; }
+.waveform i:nth-child(3n) { animation: waveform .65s ease-in-out infinite; }.waveform i:nth-child(3n + 1) { animation: waveform .85s ease-in-out infinite .12s; }.waveform i:nth-child(3n + 2) { animation: waveform .72s ease-in-out infinite .3s; }
+.core-stage[data-state="listening"] .core-button, .core-stage[data-state="processing"] .core-button, .core-stage[data-state="speaking"] .core-button { animation-duration: .9s; }
+.core-stage[data-state="listening"] .core-orbit { border-color: rgba(99,228,176,.65); }.core-stage[data-state="processing"] .core-orbit { border-color: rgba(255,184,107,.65); }.core-stage[data-state="speaking"] .core-orbit { border-color: rgba(var(--accent-rgb),.8); }
+.core-stage[data-state="listening"] ~ .waveform i, .core-stage[data-state="speaking"] ~ .waveform i { animation-duration: .25s; opacity: .95; }
+[data-animation-intensity="reduced"] .orbit-outer, [data-animation-intensity="reduced"] .orbit-mid, [data-animation-intensity="reduced"] .orbit-inner, [data-animation-intensity="reduced"] .core-ticks { animation-duration: 60s !important; }
+[data-animation-intensity="reduced"] .core-ripple { animation: none !important; }
+[data-animation-intensity="reduced"] .waveform i { animation-duration: 2s !important; }
+[data-animation-intensity="high"] .core-button { animation-duration: 1.8s; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
